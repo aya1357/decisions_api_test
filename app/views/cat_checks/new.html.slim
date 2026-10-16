@@ -1,0 +1,18 @@
+.w-full.max-w-lg
+  h1.text-2xl.font-bold 猫判定
+
+  - if alert
+    p.text-red-700 = alert
+
+  = form_with url: cat_checks_path, class: 'flex flex-col items-start gap-4', data: { turbo: false } do |form|
+    = form.file_field :image, accept: 'image/png,image/jpeg,image/webp'
+    = form.submit '判定する',
+      class: 'cursor-pointer rounded bg-black px-4 py-2 text-white'
+
+  - if @result&.status == :refused
+    p.mt-6 判定が拒否されました（#{@result.processing_time_ms}ms）
+  - elsif @result
+    p.mt-6.text-xl = @result.status == :cat ? '猫です' : '猫ではありません'
+    p.mt-2
+      | 猫である確率: #{number_to_percentage(@result.probability * 100, precision: 1)}
+    p 応答時間: #{@result.processing_time_ms}ms
