@@ -1,0 +1,202 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 4.0
+  NewCops: disable
+  # チェック対象のファイル
+  Include:
+    - "**/Rakefile"
+    - "**/config.ru"
+    - "app/**/*.rb"
+    - "spec/**/*.rb"
+    - "lib/**/*.rb"
+    - "config/**/*.rb"
+  # チェック除外のファイル
+  Exclude:
+    - "config/routes.rb"
+    - "public/**/*"
+    - "tmp/**/*"
+    - "log/**/*"
+    - "bin/**/*"
+    - "db/**/*"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+
+# Rails用のルールを有効化
+Rails:
+  Enabled: true
+
+# === 緩い設定（開発効率重視） ===
+
+# 日本語コメントを許可
+Style/AsciiComments:
+  Enabled: false
+
+# クラス・モジュールのドキュメント不要
+Style/Documentation:
+  Enabled: false
+
+# frozen_string_literal不要
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# lambda記法の強制なし
+Style/Lambda:
+  Enabled: false
+
+# ネストしたクラス定義を許可
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Gemfileの命名規則を除外
+Naming/FileName:
+  Exclude:
+    - 'Gemfile'
+
+# === パーセント記法の設定 ===
+# 各パーセント記法の推奨区切り文字
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    # %() - 文字列
+    '%': ()
+    # %i() - シンボル配列
+    '%i': ()
+    # %q() - 単一引用符文字列
+    '%q': ()
+    # %Q() - 二重引用符文字列
+    '%Q': ()
+    # %r{} - 正規表現
+    '%r': '{}'
+    # %s() - シンボル
+    '%s': ()
+    # %w() - 文字列配列
+    '%w': ()
+    # %W() - 文字列配列（展開あり）
+    '%W': ()
+    # %x() - コマンド実行
+    '%x': ()
+
+# === メトリクス（コードの複雑さ制限） ===
+
+# ABCサイズ（Assignment, Branch, Condition）
+Metrics/AbcSize:
+  Max: 26
+
+# 1行の最大文字数
+Layout/LineLength:
+  Max: 120
+
+# ブロックの最大行数
+Metrics/BlockLength:
+  Max: 50
+
+# メソッドの最大行数
+Metrics/MethodLength:
+  Max: 20
+
+# === 特殊な除外設定 ===
+
+# 本番環境設定は除外
+Naming/InclusiveLanguage:
+  Exclude:
+    - config/environments/production.rb
+
+# テストヘルパーファイルでは abort を許可（Rails の標準的な動作）
+Rails/Exit:
+  Exclude:
+    - spec/rails_helper.rb
+
+# バリデーション回避を許可するメソッド
+Rails/SkipsModelValidations:
+  AllowedMethods:
+    # 一括挿入
+    - insert_all
+    # 一括更新/挿入
+    - upsert_all
+    # 一括挿入（例外あり）
+    - insert_all!
+
+# 真偽値メソッドの接頭辞（修正版）
+Naming/PredicatePrefix:
+  NamePrefix: ['is_', 'has_', 'have_', 'check_', 'can_', 'does_']
+  ForbiddenPrefixes: ['does_']
+
+# === 厳格設定（コード品質重視） ===
+
+# 文字列: シングルクォート強制（'hello' を推奨、"hello" は補間時のみ）
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+# 文字列補間内でもシングルクォート
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+
+# 末尾カンマ: 不要（引数）
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: no_comma
+
+# 末尾カンマ: 不要（配列）
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+# 末尾カンマ: 不要（ハッシュ）
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+# === 空行制御 ===
+
+# ブロック内の空行を制御
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: true
+
+# クラス内の空行を制御
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
+
+# モジュール内の空行を制御
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: true
+
+# === Rails特有の厳格設定 ===
+
+# テーブル変更は一括で行う
+Rails/BulkChangeTable:
+  Enabled: true
+
+# テーブル作成時はタイムスタンプを含める
+Rails/CreateTableWithTimestamps:
+  Enabled: true
+
+# === パフォーマンス設定 ===
+
+# 文字列置換の最適化
+Performance/StringReplacement:
+  Enabled: true
+
+# 冗長なハッシュマージを検出
+Performance/RedundantMerge:
+  Enabled: true
+
+# === RSpec設定 ===
+# テスト例の最大行数（デフォルト: 5行）
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 10
+
+# テスト例あたりの最大expectation数（デフォルト: 1）
+RSpec/MultipleExpectations:
+  Enabled: true
+  Max: 5
+
+# spec/services/配下は実ファイルのディレクトリ構造に合わせる
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - 'spec/services/**/*_spec.rb'
