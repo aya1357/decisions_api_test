@@ -45,6 +45,9 @@ gem 'thruster', require: false
 gem 'image_processing', '~> 2.2'
 gem 'ruby-vips', require: false
 
+# OpenAI Decisions API [https://developers.openai.com/api/docs/guides/decisions]
+gem 'openai', '>= 0.101.0'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
