@@ -5,7 +5,8 @@
     p.text-red-700 = alert
 
   = form_with url: cat_checks_path, class: 'flex flex-col items-start gap-4', data: { turbo: false } do |form|
-    = form.file_field :image, accept: 'image/png,image/jpeg,image/webp'
+    = form.label :image, '判定する画像', for: 'cat_check_image'
+    = form.file_field :image, id: 'cat_check_image', accept: 'image/png,image/jpeg,image/webp'
     = form.submit '判定する',
       class: 'cursor-pointer rounded bg-black px-4 py-2 text-white'
 
